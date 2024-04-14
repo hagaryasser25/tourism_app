@@ -52,177 +52,179 @@ class _UserLoginState extends State<UserLogin> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Text(
-                          'مرحبا بك فى دليلك السياحى سجل دخول',
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 25.h,
-                        ),
-                        SizedBox(
-                          height: 65.h,
-                          child: TextField(
-                            style: TextStyle(color: Colors.amber),
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.amber,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide: BorderSide(
-                                  width: 1.0,
-                                  color: Colors.amber,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide:
-                                    BorderSide(width: 1.0, color: Colors.amber),
-                              ),
-                              border: OutlineInputBorder(),
-                              hintText: 'البريد الألكترونى',
-                              hintStyle: TextStyle(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Text(
+                            'مرحبا بك فى دليلك السياحى سجل دخول',
+                            style: TextStyle(
                                 color: Colors.amber,
                                 fontFamily: 'Cairo',
-                              ),
-                            ),
+                                fontWeight: FontWeight.w600),
                           ),
-                        ),
-                        SizedBox(
-                          height: 25.h,
-                        ),
-                        SizedBox(
-                          height: 65.h,
-                          child: TextField(
-                            style: TextStyle(color: Colors.amber),
-                            controller: passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
+                          SizedBox(
+                            height: 25.h,
+                          ),
+                          SizedBox(
+                            height: 65.h,
+                            child: TextField(
+                              style: TextStyle(color: Colors.amber),
+                              controller: emailController,
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(
-                                  Icons.password,
+                                  Icons.email,
                                   color: Colors.amber,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide: BorderSide(
-                                      width: 1.0, color: Colors.amber),
+                                    width: 1.0,
+                                    color: Colors.amber,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                      width: 1.0, color: Colors.amber),
+                                  borderSide:
+                                      BorderSide(width: 1.0, color: Colors.amber),
                                 ),
                                 border: OutlineInputBorder(),
-                                hintText: 'كلمة المرور',
+                                hintText: 'البريد الألكترونى',
                                 hintStyle: TextStyle(
                                   color: Colors.amber,
                                   fontFamily: 'Cairo',
-                                )),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        ConstrainedBox(
-                          constraints: BoxConstraints.tightFor(
-                              width: 200.w, height: 50.h),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.amber,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(25), // <-- Radius
-                              ),
+                          SizedBox(
+                            height: 25.h,
+                          ),
+                          SizedBox(
+                            height: 65.h,
+                            child: TextField(
+                              style: TextStyle(color: Colors.amber),
+                              controller: passwordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.password,
+                                    color: Colors.amber,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: Colors.amber),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: Colors.amber),
+                                  ),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'كلمة المرور',
+                                  hintStyle: TextStyle(
+                                    color: Colors.amber,
+                                    fontFamily: 'Cairo',
+                                  )),
                             ),
-                            child: Text(
-                              'سجل دخول',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                                fontFamily: 'Cairo',
+                          ),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(
+                                width: 200.w, height: 50.h),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.amber,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(25), // <-- Radius
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              var email = emailController.text.trim();
-                              var password = passwordController.text.trim();
-
-                              if (email.isEmpty || password.isEmpty) {
-                                CherryToast.info(
-                                  title: Text('Please fill all fields'),
-                                  actionHandler: () {},
-                                ).show(context);
-                                return;
-                              }
-
-                              ProgressDialog progressDialog = ProgressDialog(
-                                  context,
-                                  title: Text('Logging In'),
-                                  message: Text('Please Wait'));
-                              progressDialog.show();
-
-                              try {
-                                FirebaseAuth auth = FirebaseAuth.instance;
-                                UserCredential userCredential =
-                                    await auth.signInWithEmailAndPassword(
-                                        email: email, password: password);
-
-                                if (userCredential.user != null) {
+                              child: Text(
+                                'سجل دخول',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  fontFamily: 'Cairo',
+                                ),
+                              ),
+                              onPressed: () async {
+                                var email = emailController.text.trim();
+                                var password = passwordController.text.trim();
+                      
+                                if (email.isEmpty || password.isEmpty) {
+                                  CherryToast.info(
+                                    title: Text('Please fill all fields'),
+                                    actionHandler: () {},
+                                  ).show(context);
+                                  return;
+                                }
+                      
+                                ProgressDialog progressDialog = ProgressDialog(
+                                    context,
+                                    title: Text('Logging In'),
+                                    message: Text('Please Wait'));
+                                progressDialog.show();
+                      
+                                try {
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  UserCredential userCredential =
+                                      await auth.signInWithEmailAndPassword(
+                                          email: email, password: password);
+                      
+                                  if (userCredential.user != null) {
+                                    progressDialog.dismiss();
+                                    Navigator.pushNamed(
+                                        context, UserHome.routeName);
+                                  }
+                                } on FirebaseAuthException catch (e) {
                                   progressDialog.dismiss();
-                                  Navigator.pushNamed(
-                                      context, UserHome.routeName);
-                                }
-                              } on FirebaseAuthException catch (e) {
-                                progressDialog.dismiss();
-                                if (e.code == 'user-not-found') {
+                                  if (e.code == 'user-not-found') {
+                                    CherryToast.info(
+                                      title: Text('User not found'),
+                                      actionHandler: () {},
+                                    ).show(context);
+                                  } else if (e.code == 'wrong-password') {
+                                    CherryToast.info(
+                                      title: Text('Wrong email or password'),
+                                      actionHandler: () {},
+                                    ).show(context);
+                                  }
+                                } catch (e) {
                                   CherryToast.info(
-                                    title: Text('User not found'),
+                                    title: Text('Something went wrong'),
                                     actionHandler: () {},
                                   ).show(context);
-                                } else if (e.code == 'wrong-password') {
-                                  CherryToast.info(
-                                    title: Text('Wrong email or password'),
-                                    actionHandler: () {},
-                                  ).show(context);
+                                  progressDialog.dismiss();
                                 }
-                              } catch (e) {
-                                CherryToast.info(
-                                  title: Text('Something went wrong'),
-                                  actionHandler: () {},
-                                ).show(context);
-                                progressDialog.dismiss();
-                              }
-                            },
+                              },
+                            ),
                           ),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, AdminLogin.routeName);
-                            },
-                            child: Text(
-                              'تسجيل الدخول كأدمن',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, SignupPage.routeName);
-                            },
-                            child: Text(
-                              'اضغط هنا لانشاء حساب',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      ],
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, AdminLogin.routeName);
+                              },
+                              child: Text(
+                                'تسجيل الدخول كأدمن',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, SignupPage.routeName);
+                              },
+                              child: Text(
+                                'اضغط هنا لانشاء حساب',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ],
+                      ),
                     ),
                   ),
                 ),

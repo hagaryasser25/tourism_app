@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class AddPlace extends StatefulWidget {
 class _AddPlaceState extends State<AddPlace> {
   var nameController = TextEditingController();
   var priceController = TextEditingController();
+  var foreignPriceController = TextEditingController();
   var governorateController = TextEditingController();
   var addressController = TextEditingController();
   var latitudeController = TextEditingController();
@@ -275,7 +275,37 @@ class _AddPlaceState extends State<AddPlace> {
                                   BorderSide(width: 1.0, color: Colors.amber),
                             ),
                             border: OutlineInputBorder(),
-                            hintText: 'سعر التذكرة',
+                            hintText: "سعر التذكرة للمصرى",
+                            hintStyle: TextStyle(
+                              color: Colors.amber,
+                              fontFamily: 'Cairo',
+                            ),
+                          ),
+                        ),
+                      ),
+                          SizedBox(
+                        height: 25.h,
+                      ),
+                      SizedBox(
+                        height: 65.h,
+                        child: TextField(
+                          style: TextStyle(color: Colors.amber),
+                          controller: foreignPriceController,
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide(
+                                width: 1.0,
+                                color: Colors.amber,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide:
+                                  BorderSide(width: 1.0, color: Colors.amber),
+                            ),
+                            border: OutlineInputBorder(),
+                            hintText: "سعر التذكرة للسائح",
                             hintStyle: TextStyle(
                               color: Colors.amber,
                               fontFamily: 'Cairo',
@@ -450,6 +480,7 @@ class _AddPlaceState extends State<AddPlace> {
                           onPressed: () async {
                             String name = nameController.text.trim();
                             String price = priceController.text.trim();
+                            String foreignPrice = foreignPriceController.text.trim();
                             String governorate =
                                 governorateController.text.trim();
                             String address = addressController.text.trim();
@@ -463,7 +494,8 @@ class _AddPlaceState extends State<AddPlace> {
                                 address.isEmpty ||
                                 latitude.isEmpty ||
                                 longitude.isEmpty ||
-                                history.isEmpty) {
+                                history.isEmpty ||
+                                foreignPrice.isEmpty) {
                               CherryToast.info(
                                 title: Text('ادخل جميع الحقول'),
                                 actionHandler: () {},
@@ -488,6 +520,7 @@ class _AddPlaceState extends State<AddPlace> {
                                 'id': id,
                                 'name': name,
                                 'price': price,
+                                'foreignPrice': foreignPrice,
                                 'governorate': governorate,
                                 'address': address,
                                 'latitude': latitude,

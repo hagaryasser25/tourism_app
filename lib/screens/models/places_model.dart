@@ -11,6 +11,8 @@ class Places {
     String? longitude,
     String? name,
     String? price,
+    String? foreignPrice,
+    
   }) {
     _id = id;
     _address = address;
@@ -21,6 +23,7 @@ class Places {
     _longitude = longitude;
     _name = name;
     _price = price;
+    _foreignPrice = foreignPrice;
   }
 
   Places.fromJson(dynamic json) {
@@ -33,6 +36,7 @@ class Places {
     _longitude = json['longitude'];
     _name = json['name'];
     _price = json['price'];
+    _foreignPrice = json['foreignPrice'];
   }
 
   String? _id;
@@ -44,6 +48,7 @@ class Places {
   String? _longitude;
   String? _name;
   String? _price;
+  String? _foreignPrice;
 
   String? get id => _id;
   String? get address => _address;
@@ -54,6 +59,7 @@ class Places {
   String? get longitude => _longitude;
   String? get name => _name;
   String? get price => _price;
+  String? get foreignPrice => _foreignPrice;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -66,6 +72,7 @@ class Places {
     map['longitude'] = _longitude;
     map['name'] = _name;
     map['price'] = _price;
+    map['foreignPrice'] = _foreignPrice;
 
     return map;
   }

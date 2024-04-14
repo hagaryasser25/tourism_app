@@ -13,21 +13,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:tourism_app/screens/user/user_home.dart';
 
-class BookTicket extends StatefulWidget {
+class AddTransportation extends StatefulWidget {
   String place;
   static const routeName = '/addPlace';
-  BookTicket({required this.place});
+  AddTransportation({required this.place});
 
   @override
-  State<BookTicket> createState() => _BookTicketState();
+  State<AddTransportation> createState() => _AddTransportationState();
 }
 
-class _BookTicketState extends State<BookTicket> {
-  var nameController = TextEditingController();
-  var phoneNumberController = TextEditingController();
-  var amountController = TextEditingController();
-  var dateController = TextEditingController();
-  String dropdownValue = "مصرى";
+class _AddTransportationState extends State<AddTransportation> {
+  var typeController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var priceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -63,7 +61,7 @@ class _BookTicketState extends State<BookTicket> {
                         height: 65.h,
                         child: TextField(
                           style: TextStyle(color: Colors.amber),
-                          controller: nameController,
+                          controller: typeController,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -78,7 +76,7 @@ class _BookTicketState extends State<BookTicket> {
                                   BorderSide(width: 1.0, color: Colors.amber),
                             ),
                             border: OutlineInputBorder(),
-                            hintText: 'الاسم',
+                            hintText: "نوع المواصلات",
                             hintStyle: TextStyle(
                               color: Colors.amber,
                               fontFamily: 'Cairo',
@@ -93,7 +91,7 @@ class _BookTicketState extends State<BookTicket> {
                         height: 65.h,
                         child: TextField(
                           style: TextStyle(color: Colors.amber),
-                          controller: phoneNumberController,
+                          controller: descriptionController,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -108,7 +106,7 @@ class _BookTicketState extends State<BookTicket> {
                                   BorderSide(width: 1.0, color: Colors.amber),
                             ),
                             border: OutlineInputBorder(),
-                            hintText: 'رقم الهاتف',
+                            hintText: "الوصف",
                             hintStyle: TextStyle(
                               color: Colors.amber,
                               fontFamily: 'Cairo',
@@ -123,7 +121,7 @@ class _BookTicketState extends State<BookTicket> {
                         height: 65.h,
                         child: TextField(
                           style: TextStyle(color: Colors.amber),
-                          controller: amountController,
+                          controller: priceController,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -138,92 +136,12 @@ class _BookTicketState extends State<BookTicket> {
                                   BorderSide(width: 1.0, color: Colors.amber),
                             ),
                             border: OutlineInputBorder(),
-                            hintText: 'عدد التذاكر',
+                            hintText: "السعر",
                             hintStyle: TextStyle(
                               color: Colors.amber,
                               fontFamily: 'Cairo',
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      SizedBox(
-                        height: 65.h,
-                        child: TextField(
-                          style: TextStyle(color: Colors.amber),
-                          controller: dateController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide(
-                                width: 1.0,
-                                color: Colors.amber,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              borderSide:
-                                  BorderSide(width: 1.0, color: Colors.amber),
-                            ),
-                            border: OutlineInputBorder(),
-                            hintText: 'تاريخ الحجز',
-                            hintStyle: TextStyle(
-                              color: Colors.amber,
-                              fontFamily: 'Cairo',
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                        DecoratedBox(
-                        decoration: ShapeDecoration(
-                          shape: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.amber,
-                                width: 2.0),
-                          ),
-                        ),
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          underline: SizedBox(),
-                                    
-                          // Step 3.
-                          value: dropdownValue,
-                          icon: Padding(
-                            padding: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.arrow_drop_down,
-                                color: Colors.amber),
-                          ),
-                                    
-                          // Step 4.
-                          items: ["مصرى","سائح"]
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 5,
-                                ),
-                                child: Text(
-                                  value,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color:
-                                          Colors.amber),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          // Step 5.
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
                         ),
                       ),
                       SizedBox(
@@ -237,16 +155,14 @@ class _BookTicketState extends State<BookTicket> {
                             primary: Colors.amber,
                           ),
                           onPressed: () async {
-                            String name = nameController.text.trim();
-                            String phoneNumber =
-                                phoneNumberController.text.trim();
-                            String amount = amountController.text.trim();
-                            String date = dateController.text.trim();
+                            String type = typeController.text.trim();
+                            String description =
+                                descriptionController.text.trim();
+                            String price = priceController.text.trim();
 
-                            if (name.isEmpty ||
-                                phoneNumber.isEmpty ||
-                                amount.isEmpty ||
-                                date.isEmpty) {
+                            if (type.isEmpty ||
+                                description.isEmpty ||
+                                price.isEmpty ) {
                               CherryToast.info(
                                 title: Text('ادخل جميع الحقول'),
                                 actionHandler: () {},
@@ -262,24 +178,20 @@ class _BookTicketState extends State<BookTicket> {
                               DatabaseReference companyRef = FirebaseDatabase
                                   .instance
                                   .reference()
-                                  .child('placesBookings');
+                                  .child('transportations').child(widget.place);
 
                               String? id = companyRef.push().key;
 
                               await companyRef.child(id!).set({
                                 'id': id,
-                                'name': name,
-                                'phoneNumber': phoneNumber,
-                                'amount': amount,
-                                'date': date,
-                                'place': widget.place,
-                                'type': dropdownValue,
-                                'uid': FirebaseAuth.instance.currentUser!.uid,
+                                'type': type,
+                                'description': description,
+                                'price': price,
                               });
                             }
                             showAlertDialog(context);
                           },
-                          child: Text('حجز',
+                          child: Text("أضافة",
                               style: TextStyle(color: Colors.black)),
                         ),
                       ),
@@ -307,7 +219,7 @@ void showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Notice"),
-    content: Text("تم الحجز"),
+    content: Text("تم الاضافة"),
     actions: [
       remindButton,
     ],

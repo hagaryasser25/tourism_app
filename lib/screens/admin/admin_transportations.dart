@@ -5,22 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tourism_app/screens/admin/add_transportation.dart';
+import 'package:tourism_app/screens/models/transportations.dart';
 
 import '../models/booking_model.dart';
 
-class BookingList extends StatefulWidget {
+class AdminTransportations extends StatefulWidget {
+  String place;
   static const routeName = '/bookingList';
-  const BookingList({super.key});
+  AdminTransportations({required this.place});
 
   @override
-  State<BookingList> createState() => _BookingListState();
+  State<AdminTransportations> createState() => _AdminTransportationsState();
 }
 
-class _BookingListState extends State<BookingList> {
+class _AdminTransportationsState extends State<AdminTransportations> {
   late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
-  List<Booking> bookingList = [];
+  List<Transportations> transportList = [];
   List<String> keyslist = [];
 
   @override
@@ -33,11 +36,11 @@ class _BookingListState extends State<BookingList> {
   void fetchBookings() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
-    base = database.reference().child("placesBookings");
+    base = database.reference().child("transportations").child(widget.place);
     base.onChildAdded.listen((event) {
       print(event.snapshot.value);
-      Booking p = Booking.fromJson(event.snapshot.value);
-      bookingList.add(p);
+      Transportations p = Transportations.fromJson(event.snapshot.value);
+      transportList.add(p);
       keyslist.add(event.snapshot.key.toString());
       setState(() {});
     });
@@ -52,7 +55,33 @@ class _BookingListState extends State<BookingList> {
         builder: (context, child) => Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text('قائمة الحجوزات'),
+              title: Text("وسائل الوصول"),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return AddTransportation(
+                    place: widget.place,
+                  );
+                }));
+              },
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // circular shape
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.amber,
+                      Colors.amber,
+                    ],
+                  ),
+                ),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
             ),
             body: Padding(
               padding: EdgeInsets.only(
@@ -61,7 +90,7 @@ class _BookingListState extends State<BookingList> {
                 left: 10.w,
               ),
               child: ListView.builder(
-                itemCount: bookingList.length,
+                itemCount: transportList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return SingleChildScrollView(
                     child: Column(
@@ -81,7 +110,7 @@ class _BookingListState extends State<BookingList> {
                                     Align(
                                       alignment: Alignment.topRight,
                                       child: Text(
-                                        'المكان السياحى : ${bookingList[index].place.toString()}',
+                                        'نوع المواصلات : ${transportList[index].type.toString()}',
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w600,
@@ -91,7 +120,7 @@ class _BookingListState extends State<BookingList> {
                                     Align(
                                       alignment: Alignment.topRight,
                                       child: Text(
-                                        'عدد التذاكر المحجوزة : ${bookingList[index].amount.toString()}',
+                                        'طريقة الوصول : ${transportList[index].description.toString()}',
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w600,
@@ -101,37 +130,7 @@ class _BookingListState extends State<BookingList> {
                                     Align(
                                       alignment: Alignment.topRight,
                                       child: Text(
-                                        'الاسم : ${bookingList[index].name.toString()}',
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Cairo'),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        'رقم الهاتف : ${bookingList[index].phoneNumber.toString()}',
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Cairo'),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        'التاريخ : ${bookingList[index].date.toString()}',
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'Cairo'),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        'الجنسية : ${bookingList[index].type.toString()}',
+                                        'التكلفة : ${transportList[index].price.toString()}جنيه',
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w600,
@@ -147,7 +146,8 @@ class _BookingListState extends State<BookingList> {
                                                     (BuildContext context) =>
                                                         super.widget));
                                         base
-                                            .child(bookingList[index]
+                                            .child(widget.place)
+                                            .child(transportList[index]
                                                 .id
                                                 .toString())
                                             .remove();
@@ -167,8 +167,7 @@ class _BookingListState extends State<BookingList> {
                   );
                 },
               ),
-            )
-            ),
+            )),
       ),
     );
   }

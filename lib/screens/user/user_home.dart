@@ -27,6 +27,7 @@ class _UserHomeState extends State<UserHome> {
   late FirebaseDatabase database;
   late FirebaseApp app;
   List<Places> placesList = [];
+  List<Places> searchList = [];
   List<String> keyslist = [];
   late Users currentUser;
 
@@ -46,6 +47,7 @@ class _UserHomeState extends State<UserHome> {
       print(event.snapshot.value);
       Places p = Places.fromJson(event.snapshot.value);
       placesList.add(p);
+      searchList.add(p);
       keyslist.add(event.snapshot.key.toString());
       setState(() {});
     });
@@ -229,6 +231,39 @@ class _UserHomeState extends State<UserHome> {
                 SizedBox(
                   height: 10.h,
                 ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: 10.w, left: 10.w, top: 20.h, bottom: 20.h),
+                  child: TextField(
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                    ),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color.fromARGB(255, 195, 115, 110), width: 32.0),
+                          borderRadius: BorderRadius.circular(25.0)),
+                      hintText: 'ابحث بالأسم',
+                    ),
+                    onChanged: (char) {
+                      setState(() {
+                        if (char.isEmpty) {
+                          setState(() {
+                            placesList = searchList;
+                          });
+                        } else {
+                          placesList = [];
+                          for (Places model in searchList) {
+                            if (model.name!.contains(char)) {
+                              placesList.add(model);
+                            }
+                          }
+                          setState(() {});
+                        }
+                      });
+                    },
+                  ),
+                ),
                 Container(
                   child: Expanded(
                     flex: 8,
@@ -247,6 +282,8 @@ class _UserHomeState extends State<UserHome> {
                                             '${placesList[index].name.toString()}',
                                         price:
                                             '${placesList[index].price.toString()}',
+                                        foreginPrice:
+                                            '${placesList[index].foreignPrice.toString()}',
                                         governorate:
                                             '${placesList[index].governorate.toString()}',
                                         address:

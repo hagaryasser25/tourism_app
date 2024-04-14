@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tourism_app/screens/admin/add_transportation.dart';
+import 'package:tourism_app/screens/admin/admin_transportations.dart';
 
 import '../models/places_model.dart';
 
@@ -91,6 +93,43 @@ class _AdminPlacesState extends State<AdminPlaces> {
                                             color: Colors.white,
                                             fontFamily: 'Cairo',
                                             fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      ConstrainedBox(
+                                          constraints: BoxConstraints.tightFor(
+                                              width: 200.w, height: 50.h),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.blue,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        25), // <-- Radius
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "أضافة وسائل الوصول",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                fontFamily: 'Cairo',
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return  AdminTransportations(
+                                                  place: '${placesList[index].name}',
+                                                 
+                                                );
+                                              }));
+                                            },
+                                          )),
+                                      SizedBox(
+                                        height: 10.h,
                                       ),
                                       InkWell(
                                           onTap: () {

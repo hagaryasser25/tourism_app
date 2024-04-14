@@ -9,6 +9,7 @@ class Booking {
     String? phoneNumber,
     String? date,
     String? uid,
+    String? type,
   }) {
     _id = id;
     _name = name;
@@ -17,6 +18,7 @@ class Booking {
     _phoneNumber = phoneNumber;
     _date = date;
     _uid = uid;
+    _type = type;
   }
 
   Booking.fromJson(dynamic json) {
@@ -27,6 +29,7 @@ class Booking {
     _phoneNumber = json['phoneNumber'];
     _date = json['date'];
     _uid = json['uid'];
+    _type = json['type'];
   }
 
   String? _id;
@@ -36,6 +39,7 @@ class Booking {
   String? _phoneNumber;
   String? _date;
   String? _uid;
+  String? _type;
 
   String? get id => _id;
   String? get name => _name;
@@ -44,6 +48,7 @@ class Booking {
   String? get phoneNumber => _phoneNumber;
   String? get date => _date;
   String? get uid => _uid;
+  String? get type => _type;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -54,6 +59,7 @@ class Booking {
     map['phoneNumber'] = _phoneNumber;
     map['date'] = _date;
     map['uid'] = _uid;
+    map['type'] = _type;
 
     return map;
   }

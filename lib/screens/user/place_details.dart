@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourism_app/screens/user/book_ticket.dart';
 import 'package:tourism_app/screens/user/place_history.dart';
 import 'package:tourism_app/screens/user/place_location.dart';
+import 'package:tourism_app/screens/user/user_transportations.dart';
 
 class PlaceDetails extends StatefulWidget {
   String name;
   String price;
+  String foreginPrice;
   String governorate;
   String address;
   String history;
@@ -18,6 +20,7 @@ class PlaceDetails extends StatefulWidget {
   PlaceDetails(
       {required this.name,
       required this.price,
+      required this.foreginPrice,
       required this.governorate,
       required this.address,
       required this.history,
@@ -73,7 +76,14 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               height: 10.h,
             ),
             Text(
-              'سعر التذكرة : ${widget.price}',
+              'سعرالتذكرة للمصرى : ${widget.price} جنيه',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Text(
+              'سعر التذكرة للسائح : ${widget.foreginPrice}دولار',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             SizedBox(
@@ -167,34 +177,76 @@ class _PlaceDetailsState extends State<PlaceDetails> {
             SizedBox(
               height: 15.h,
             ),
-            ConstrainedBox(
-                constraints:
-                    BoxConstraints.tightFor(width: 170.w, height: 50.h),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25), // <-- Radius
-                    ),
+            Padding(
+              padding: EdgeInsets.only(
+                right: 10.w,
+                left: 10.w,
+              ),
+              child: Row(
+                children: [
+                  ConstrainedBox(
+                      constraints:
+                          BoxConstraints.tightFor(width: 170.w, height: 50.h),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(25), // <-- Radius
+                          ),
+                        ),
+                        child: Text(
+                          "وسائل الوصول",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return UserTransportations(
+                              place: widget.name,
+                            );
+                          }));
+                        },
+                      )),
+                  SizedBox(
+                    width: 10.w,
                   ),
-                  child: Text(
-                    'الموقع',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontFamily: 'Cairo',
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return PlaceLocation(
-                        latitude: widget.latitude,
-                        longitude: widget.longitude,
-                      );
-                    }));
-                  },
-                )),
+                  ConstrainedBox(
+                      constraints:
+                          BoxConstraints.tightFor(width: 170.w, height: 50.h),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(25), // <-- Radius
+                          ),
+                        ),
+                        child: Text(
+                          'الموقع',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return PlaceLocation(
+                              latitude: widget.latitude,
+                              longitude: widget.longitude,
+                            );
+                          }));
+                        },
+                      )),
+                ],
+              ),
+            ),
           ]),
         ),
       ),
