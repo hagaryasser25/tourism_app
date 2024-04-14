@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ndialog/ndialog.dart';
+import 'package:tourism_app/screens/admin/admin_home.dart';
 import 'package:tourism_app/screens/user/user_home.dart';
 
 class AddTransportation extends StatefulWidget {
@@ -212,7 +213,7 @@ void showAlertDialog(BuildContext context) {
     ),
     child: Text("Ok"),
     onPressed: () {
-      Navigator.pushNamed(context, UserHome.routeName);
+      Navigator.pushNamed(context, AdminHome.routeName);
     },
   );
 
